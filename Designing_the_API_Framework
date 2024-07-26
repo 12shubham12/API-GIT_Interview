@@ -104,4 +104,10 @@ OAuth2 Implementation
 
 ----------------------------------------------------------------------------------------------------------------
 All Git commands:
-
+1. git init
+- open intellij and go to a new folder where we want to create local workspace. From terminal type: git init
+2. git remote add origin https://github.com/12shubham12/API-GIT_Interview.git
+3. git pull origin master
+4. git add . or git add filename
+4. git commit -m "commit message"
+5. git push origin master
