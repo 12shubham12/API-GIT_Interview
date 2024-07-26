@@ -1,0 +1,107 @@
+1. Create a Maven Project
+2. Import all the relevant dependencies
+<dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.7.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>5.3.0</version>
+      <scope>test</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>json-path</artifactId>
+      <version>5.3.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20230227</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+
+Note:
+Hamcrest is a library used in API automation to create more readable assertions
+eg: assertThat(response.getStatusCode(), equalTo(200));
+assertThat(response.jsonPath().getString("fieldName"), equalTo("expectedFiledValue"));
+
+3. Create below folders inside the project
+-Config(it will have config.properties file)
+-ResponseFiles(to have the response API)
+-TestData(having Data.xlsx sheet to read data from excel)
+-Screenshots(to have the SS of failure Response)
+
+4. Inside src/main/java -> create one package "resources" which will have the input json file in .json
+5.Inside src/test/java ->create 2 packages
+- utility (it will have 5 classes, BaseClass, ConfigDataProvider, ExcelDataProvider and Helper, EndPointURLs)
+- testcases (will have the individual level test classes like, createSA, createBA etc and a combined test class)
+
+5. Inside EndPointURLs class, provide the Endpoint urls for ST, SIT, UAT, PreProd
+
+6. Inside Config folder, create config.properties file
+
+7. In BaseClass, we initialize config and excel data provider class. Also, we have code for JDBC connection.
+
+8. In testcases package, we create different classes for different APIs like createBA, getAccountInfo etc
+Also, we will have MainTest class, where we will have @Test methods which will call methods created in above class
+respectively.
+Eg:
+Refer SimpleGetRequest class, where we have method that will execute get API, this method is called main test class
+which is "AllTestTogether" inside @Test and method name is testBasicGet()
+
+NOTE:
+//asPrettyString() method is used to print the response in actual json format which is more readable.
+//.prettyPrint() method is used to print the response in actual json format which is more readable in console
+
+----------------------------------------------------------------------------------------------------------------
+POST Request
+1. Create a json input file (createProfile.json) -> add the payload
+2. In config.properties file, provide the path for the input json file.
+4.Create a method (read_Json_File) inside a Helper Class, that will read the json file (request payload as string)
+4. Create a class in testcases folder (say: SimplePost_CreateProfile) which will have method to createProfile
+5. In POST, since we will be reading path from config, then we have to write code in ConfigDataProvider Class
+to read data from config.properties file(i.e input json file path)
+6. Now create a Class(SimplePOST_CreateProfile) that will have the method to fire the post request that will
+execute POST API, this method is called main test class
+which is "AllTestTogether" inside @Test and method name is testBasicPost_CreateProfile()
+
+----------------------------------------------------------------------------------------------------------------
+Validation of Request Header and Token
+
+
+----------------------------------------------------------------------------------------------------------------
+Validation of Response Header and Token
+
+//Validating the Response Header
+        String response_ContentType = response.getHeader("Content-Type");
+        Assert.assertEquals(response_ContentType,"application/json");
+        String response_Cookie = response.getCookie("session");
+        Assert.assertEquals(response_Cookies,null);
+        Headers headers = response.getHeaders();
+        System.out.println(headers);
+        String authToken = response.getHeader("Authorization");
+        Assert.assertTrue(authToken, expected);
+
+----------------------------------------------------------
+OAuth2 Implementation
+
+
+
+----------------------------------------------------------------------------------------------------------------
+All Git commands:
+
