@@ -136,5 +136,5 @@ and his code is pushed to the master.
 5. Go to master branch
 6. git pull origin master
 7. From master branch, do a git merge (git merge branch_name)
-6.We will get merge error
+6.We will get merge conflict
 7. Open the file, resolve it and
