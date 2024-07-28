@@ -137,4 +137,7 @@ and his code is pushed to the master.
 6. git pull origin master
 7. From master branch, do a git merge (git merge branch_name)
 6.We will get merge conflict
-7. Open the file, resolve it and
+7. Open the file, resolve it
+8. git add filename
+9. git commit -m "message"
+10. git push origin master
