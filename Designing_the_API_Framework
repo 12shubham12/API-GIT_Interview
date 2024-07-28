@@ -111,3 +111,5 @@ All Git commands:
 4. git add . or git add filename
 4. git commit -m "commit message"
 5. git push origin master
+
+delete
