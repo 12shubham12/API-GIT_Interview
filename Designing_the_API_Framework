@@ -215,6 +215,7 @@ and his code is pushed to the master.
 9. git commit -m "message"
 10. git push origin master
 
+
 --------------------------------------Serialisation and De-serialisation--------------------------------------
 Add below dependency in pom.xml
 <dependency>
@@ -245,3 +246,4 @@ Allure.addAttachment("API Response", "application/json", response.getBody().asPr
 Allure.addAttachment("API Response Logs", "text/plain", response.getBody().asPrettyString(), "txt");
 
 ------------------------------------------Jenkins--------------------------------------------------------
+
