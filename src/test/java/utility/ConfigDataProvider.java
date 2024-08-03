@@ -19,7 +19,7 @@ public class ConfigDataProvider {
         }
     }
 
-    public String retrieveCreateProfile_InputFile(){
-        return pro.getProperty("CreateProfile_json");
+    public String retrieveAddObject_InputFile(){
+        return pro.getProperty("AddObject_json");
     }
 }

@@ -7,4 +7,6 @@ public class EndPointURLs {
 
     public static String base_URL_UAT =
             "https://openlibrary.org/api/books?bibkeys=ISBN:0201558025,LCCN:93005405&format=json";
+
+    public static String base_URL_SunRiseAndSunSet = "https://api.sunrise-sunset.org";
 }

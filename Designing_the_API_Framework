@@ -48,7 +48,8 @@ assertThat(response.jsonPath().getString("fieldName"), equalTo("expectedFiledVal
 
 4. Inside src/main/java -> create one package "resources" which will have the input json file in .json
 5.Inside src/test/java ->create 2 packages
-- utility (it will have 5 classes, BaseClass, ConfigDataProvider, ExcelDataProvider and Helper, EndPointURLs)
+- utility (it will have 7 classes, BaseClass, ConfigDataProvider, ExcelDataProvider and Helper, EndPointURLs
+and AuthUtils, OAuthUtils)
 - testcases (will have the individual level test classes like, createSA, createBA etc and a combined test class)
 
 5. Inside EndPointURLs class, provide the Endpoint urls for ST, SIT, UAT, PreProd
@@ -68,17 +69,58 @@ NOTE:
 //asPrettyString() method is used to print the response in actual json format which is more readable.
 //.prettyPrint() method is used to print the response in actual json format which is more readable in console
 
+9. In AuthUtils Class, create a method to generate the Auth token (Bearer token) which can be used for
+Authorization in GET and POST Request.
+
+10. Refer class Get_SunRiseAndSunSet_UsingBearerToken and AuthUtils (best way to automate)
+and that method I have used in AllTestTogether
+
+11. Similarly for OAuthUtils and Get_SunRiseAndSunSet_UsingOAuthToken
+
+----------------------------------------Response Validation-------------------------------------------
+1. Schema Validation (Validate entire structure of a JSON response using JSON schema)
+2. Using JSONPath - Validate Simple and Nested JSON objects and arrays
+------------------------------------------------------------------------------------------------------
+Schema Validation:
+a. Add json schema validator dependency in pom.xml
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>json-schema-validator</artifactId>
+    <version>5.4.0</version>
+</dependency>
+
+b. Create Json schema (say SunSchema.json) under src/main/java/resources/schemas
+
+Validating a single value in Response body:
+Assert.assertEquals(response.jsonPath().getString("status"), "OK");
+Assert.assertEquals(response.jsonPath().getString("accountNumber"), "BA23456");
+
+Validate Nested JSON objects and arrays:
+Assert.assertEquals(response.jsonPath().getString("results.sunrise"), "5:21:48 AM");
+
+--------------------------------------------POST Request--------------------------------------------------------
+There are two ways to send the POST Request:
+1. Using Request Json input file
+2. Using Objects (i.e serialization and de-serialization)
+
+
 ----------------------------------------------------------------------------------------------------------------
-POST Request
-1. Create a json input file (createProfile.json) -> add the payload
+POST Request - Using Json Input file
+1. Create a json input file (addObject.json) -> add the payload
 2. In config.properties file, provide the path for the input json file.
 4.Create a method (read_Json_File) inside a Helper Class, that will read the json file (request payload as string)
-4. Create a class in testcases folder (say: SimplePost_CreateProfile) which will have method to createProfile
-5. In POST, since we will be reading path from config, then we have to write code in ConfigDataProvider Class
+5. In POST, since we will be reading path from config(using method , then we have to write code in ConfigDataProvider Class
 to read data from config.properties file(i.e input json file path)
-6. Now create a Class(SimplePOST_CreateProfile) that will have the method to fire the post request that will
-execute POST API, this method is called main test class
+6. Now create a Class(AddObject_POST) that will have the method to fire the post request that will
+execute POST API, this method is called in main test class
 which is "AllTestTogether" inside @Test and method name is testBasicPost_CreateProfile()
+7. We have passed hardcode value in the input json, but now we will be sending these values from excel
+8. Modify the (addObject.json) file and put the variable name in place of value
+9. Create ExcelDataProvider class.
+10. Go to Helper class, and create a method(say addObj_helper) to read the json file.
+11. In above method, we will pass the path of the json file using the method created in ConfigDataProvider class,
+i.e
+
 
 ----------------------------------------------------------------------------------------------------------------
 Validation of Request Header and Token
@@ -98,9 +140,6 @@ Validation of Response Header and Token
         Assert.assertTrue(authToken, expected);
 
 ----------------------------------------------------------
-OAuth2 Implementation
-
-
 
 ----------------------------------------------------------------------------------------------------------------
 All Git commands:
@@ -120,11 +159,45 @@ git checkout branch_name
 
 Git merge:
 git merge branch_name
-
+----------------------------------------------------------------------------------------------------------------
 git fetch and/vs git pull
+git fetch:
+git fetch origin master
+git fetch will download the latest changes from remote to our local repository.
+It allows us to review and manually merge the changes
+No changes to our working directory and staging area.
 
+git pull:
+git pull will download the latest changes from remote to our local repository and automatically merge the changes
+to our working directory
+It doesn't allows us to review the changes and due to which it can cause merge conflict
+git pull = git fetch + git merge
+
+----------------------------------------------------------------------------------------------------------------
 git stash
+To temporary save the changes (both current and unstaged) made to the project, it we want to switch to a
+different branch in between for some other work without having to commit unfinished work.
+Command:
+git stash save "my message"
 
+To View Stashed changes
+git stash list
+
+Apply stashed changes(apply the most recent stash entry yo working directory without removing from stash list):
+git stash apply
+
+In case of multiple stashes - To retrieve or to apply a specific stash
+git stash apply stash@{2}
+
+To apply most recent stash entry to working directory and remove it from stash list
+git stash pop
+for specific stash
+git stash pop stash@{2}
+
+Extra:
+git stash clear -> remove all the stash entries
+git stash drop -> remove the most recent stash entry
+git stash drop stash@{2} -> remove a specific stash entry
 
 ----------------------------------------------------------------------------------------------------------------
 Merge Conflict Scenario
@@ -137,4 +210,38 @@ and his code is pushed to the master.
 6. git pull origin master
 7. From master branch, do a git merge (git merge branch_name)
 6.We will get merge conflict
-7. Open the file, resolve it and
+7. Open the file, resolve it
+8. git add filename
+9. git commit -m "message"
+10. git push origin master
+
+--------------------------------------Serialisation and De-serialisation--------------------------------------
+Add below dependency in pom.xml
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.17.2</version>
+</dependency>
+
+
+Create a POJO(Plain Old Java Object) for JSON Mapping
+1. Create a class (say CreateBA) inside the utility package
+2. Create a utility class for Serialisation (say JsonUtils) inside utility package
+3. Now come to src/test/java/testcases folder and create a class(eg CreateBA_POST)
+
+--------------------------------------Allure---------------------------------------------------------------
+Allure Report:
+For Allure Report , just download the below dependency and add below commands in @Test in AllTestTogether class
+<dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>2.27.0</version>
+</dependency>
+
+//Attach Response body to the Allure report
+Allure.addAttachment("API Response", "application/json", response.getBody().asPrettyString(), "json");
+
+// Attach API response logs
+Allure.addAttachment("API Response Logs", "text/plain", response.getBody().asPrettyString(), "txt");
+
+------------------------------------------Jenkins--------------------------------------------------------

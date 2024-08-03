@@ -12,7 +12,6 @@ public class BaseClass {
 
     public static ConfigDataProvider config;
     public static ExcelDataProvider excel;
-
     @BeforeClass
     public void setup() {
         config = new ConfigDataProvider();

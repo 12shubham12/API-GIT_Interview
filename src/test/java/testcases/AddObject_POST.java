@@ -3,25 +3,26 @@ package testcases;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import utility.BaseClass;
 import utility.Helper;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public class SimplePOST_CreateProfile {
+public class AddObject_POST {
 
-    public static Response createProfile_POST(String endpoint) throws IOException {
-        RequestSpecification requestSpecification = RestAssured.given().
-                    //header("X-Telenor-CorrelationId", "value").
-                    contentType(ContentType.JSON).
-                    baseUri(endpoint).
-                    body(Helper.read_Json_File(BaseClass.config.retrieveCreateProfile_InputFile())).
-                    when();
-
-        Response response = requestSpecification.post("/objects");
+    public static Response addObject(String endpoint) throws IOException {
+        Response response = RestAssured.given().
+                //header("","").
+                contentType(ContentType.JSON).
+                baseUri(endpoint).
+                body("").
+                when().
+                post("").
+                then().
+                statusCode(200).
+                extract().
+                response();
 
         //Saving the response in a file inside "ResponseFiles" folder
         File targetFileForString = new File("./ResponseFiles/api_data"+"PostAPI_CreateProfile"

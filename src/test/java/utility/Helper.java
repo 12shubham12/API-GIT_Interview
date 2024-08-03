@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class Helper {
 
+
     public static String getCurrentDateTime(){
         DateFormat customFormat = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
         Date currentDate = new Date();
@@ -21,6 +22,5 @@ public class Helper {
         String jsonString = new String(Files.readAllBytes(Paths.get(jsonPath)));
         return jsonString;
     }
-
 
 }

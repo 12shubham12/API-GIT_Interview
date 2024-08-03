@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "properties": {
+    "results": {
+      "type": "object",
+      "properties": {
+        "sunrise": {
+          "type": "string"
+        },
+        "sunset": {
+          "type": "string"
+        },
+        "solar_noon": {
+          "type": "string"
+        },
+        "day_length": {
+          "type": "string"
+        },
+        "civil_twilight_begin": {
+          "type": "string"
+        },
+        "civil_twilight_end": {
+          "type": "string"
+        },
+        "nautical_twilight_begin": {
+          "type": "string"
+        },
+        "nautical_twilight_end": {
+          "type": "string"
+        },
+        "astronomical_twilight_begin": {
+          "type": "string"
+        },
+        "astronomical_twilight_end": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sunrise",
+        "sunset",
+        "solar_noon",
+        "day_length",
+        "civil_twilight_begin",
+        "civil_twilight_end",
+        "nautical_twilight_begin",
+        "nautical_twilight_end",
+        "astronomical_twilight_begin",
+        "astronomical_twilight_end"
+      ]
+    },
+    "status": {
+      "type": "string"
+    },
+    "tzid": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "results",
+    "status",
+    "tzid"
+  ]
+}
