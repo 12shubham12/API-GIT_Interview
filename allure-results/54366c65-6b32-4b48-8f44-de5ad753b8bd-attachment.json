@@ -1,0 +1,16 @@
+{
+    "results": {
+        "sunrise": "5:24:15 AM",
+        "sunset": "7:23:26 PM",
+        "solar_noon": "12:23:50 PM",
+        "day_length": "13:59:11",
+        "civil_twilight_begin": "4:57:18 AM",
+        "civil_twilight_end": "7:50:23 PM",
+        "nautical_twilight_begin": "4:22:50 AM",
+        "nautical_twilight_end": "8:24:51 PM",
+        "astronomical_twilight_begin": "3:45:54 AM",
+        "astronomical_twilight_end": "9:01:47 PM"
+    },
+    "status": "OK",
+    "tzid": "UTC"
+}
