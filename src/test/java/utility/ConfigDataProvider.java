@@ -22,4 +22,7 @@ public class ConfigDataProvider {
     public String retrieveAddObject_InputFile(){
         return pro.getProperty("AddObject_json");
     }
+    public String read_ExcelDataPath(){
+        return pro.getProperty("test_data_excel_path");
+    }
 }

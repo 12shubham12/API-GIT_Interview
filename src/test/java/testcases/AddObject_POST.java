@@ -3,20 +3,24 @@ package testcases;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.testng.annotations.DataProvider;
+import utility.ExcelDataProvider;
 import utility.Helper;
+import utility.JsonUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Map;
 
 public class AddObject_POST {
 
-    public static Response addObject(String endpoint) throws IOException {
+    public static Response addObject(String endpoint, String jsonBody) throws IOException {
         Response response = RestAssured.given().
                 //header("","").
                 contentType(ContentType.JSON).
                 baseUri(endpoint).
-                body("").
+                body(jsonBody).
                 when().
                 post("").
                 then().

@@ -7,23 +7,30 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utility.BaseClass;
+import utility.DataProviderClass;
 import utility.EndPointURLs;
+import utility.JsonUtils;
 
+import java.util.Map;
 import java.io.IOException;
 
 public class AllTestTogether extends BaseClass {
 
 
-    @Test(priority =1)
-    public void test_POSTaddObject() throws IOException {
-        Response response = AddObject_POST.addObject(EndPointURLs.base_URL_POST);
+    @Test(priority =1, dataProvider = "excelData", dataProviderClass = DataProviderClass.class)
+    public void test_POSTaddObject(Map<String, String> data) throws IOException {
+        //Generate JSON string from excel data
+        String jsonBody = JsonUtils.generateJsonString(data);
+
+        //Send POST Request
+        Response response = AddObject_POST.addObject(EndPointURLs.base_URL_POST, jsonBody);
 
         //Validating the status code
         Assert.assertEquals(response.getStatusCode(), 200);
 
         //Validating the Response Header
         String response_ContentType = response.getHeader("Content-Type");
-        Assert.assertEquals(response_ContentType,"text/plain;charset=UTF-8");
+        Assert.assertEquals(response_ContentType,"application/json");
         String response_Cookies = response.getCookie("session");
         Assert.assertEquals(response_Cookies,null);
         Headers headers = response.getHeaders();

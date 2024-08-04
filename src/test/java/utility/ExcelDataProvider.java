@@ -1,28 +1,30 @@
 package utility;
 
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExcelDataProvider {
 
-    XSSFWorkbook wb;
-    public ExcelDataProvider(){
-        File src = new File("./TestData/TestData.xlsx");
-        try{
-            FileInputStream fis = new FileInputStream(src);
-            wb = new XSSFWorkbook(fis);
+    public static Map<String, String> getRowData(String filePath, String sheetName, int rowNumber) {
+        Map<String, String> data = new HashMap<>();
+        try (FileInputStream fileInputStream = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(fileInputStream)) {
+            Sheet sheet = workbook.getSheet(sheetName);
+            Row row = sheet.getRow(rowNumber);
+            Row headerRow = sheet.getRow(0);
+            for (Cell cell : row) {
+                int columnIndex = cell.getColumnIndex();
+                String header = headerRow.getCell(columnIndex).getStringCellValue();
+                String value = cell.getStringCellValue();
+                data.put(header, value);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch(Exception e){
-            System.out.println("File not found "+e.getMessage());
-        }
-    }
-
-    public String getStringdata(String sheetName, int row, int col){
-        return wb.getSheet(sheetName).getRow(row).getCell(col).getStringCellValue();
-    }
-    public int getNumericdata(String sheetName, int row, int col){
-        return (int)wb.getSheet(sheetName).getRow(row).getCell(col).getNumericCellValue();
+        return data;
     }
 }

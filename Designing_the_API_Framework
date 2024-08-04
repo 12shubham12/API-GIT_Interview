@@ -246,4 +246,12 @@ Allure.addAttachment("API Response", "application/json", response.getBody().asPr
 Allure.addAttachment("API Response Logs", "text/plain", response.getBody().asPrettyString(), "txt");
 
 ------------------------------------------Jenkins--------------------------------------------------------
+1. Install below dependency
+<dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+      <scope>provided</scope>
+</dependency>
 
+2. Go to Jenkins and create a Job (Refer Maven project API_GIT_Live from Jenkins)
